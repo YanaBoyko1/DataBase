@@ -2,6 +2,7 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flasgger import Swagger  # <-- 1. ДОДАЙТЕ ЦЕЙ ІМПОРТ
 import yaml
 
 # Ініціалізація об'єкта SQLAlchemy
@@ -9,6 +10,7 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
+    Swagger(app)  # <-- 2. ДОДАЙТЕ ЦЕЙ РЯДОК
 
     # Завантаження конфігурації з app.yml
     with open('app/config/app.yml', 'r', encoding='utf-8') as file:
