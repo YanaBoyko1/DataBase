@@ -1,6 +1,5 @@
 name: Deploy to EC2
 
-# Цей Action буде запускатися при кожному push у гілку lab_4
 on:
   push:
     branches:
@@ -12,11 +11,10 @@ jobs:
 
     steps:
     - name: Deploy to EC2 instance
-      uses: appleboy/ssh-action@v0.1.7 # Популярний Action для SSH
+      uses: appleboy/ssh-action@v0.1.7
       with:
-        host: ${{ secrets.SSH_HOST }} # Беремо IP-адресу з секретів
-        username: ${{ secrets.SSH_USER }} # Беремо користувача з секретів
-        key: ${{ secrets.SSH_PRIVATE_KEY }} # Беремо ключ з секретів
+        host: ${{ secrets.SSH_HOST }} 
+        username: ${{ secrets.SSH_USER }} 
+        key: ${{ secrets.SSH_PRIVATE_KEY }} 
         script: |
-          # Виконуємо наш скрипт на сервері
           bash ~/DataBase/deploy.sh
