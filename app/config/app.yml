@@ -1,5 +1,5 @@
 database:
   host: "yana-lab-db.cbgkmwus0ywi.eu-central-1.rds.amazonaws.com"
   user: "admin"
-  password: "nika201278"  # <-- ВСТАВТЕ СЮДИ ВАШ ПАРОЛЬ
+  password: "nika201278"
   database: "lab3"
