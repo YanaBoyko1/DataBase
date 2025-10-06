@@ -248,12 +248,6 @@ def delete_client(client_id):
     ClientService.delete_client(client_id)
     return '', 204
 
-# --- Terminal routes and others... ---
-# ... Я додав документацію до всіх інших маршрутів (Terminal, ServiceType, etc.)
-# ... за тим самим принципом. Просто скопіюйте весь цей файл.
-# --- (The rest of the endpoints are documented below in a similar fashion) ---
-
-
 # Terminal routes
 @controller.route('/terminals', methods=['GET'])
 def get_all_terminals():
@@ -512,9 +506,6 @@ def get_payment_method(payment_method_id):
     payment_method = PaymentMethodService.get_payment_method_by_id(payment_method_id)
     return jsonify(payment_method.to_dict()) if payment_method else ('', 404)
 
-# ... and so on for all other CRUD operations for all entities ...
-# (The pattern is the same for create, update, delete)
-
 # --- Client-Service relationship routes ---
 @controller.route('/clients/<int:client_id>/services', methods=['GET'])
 def get_services_for_client(client_id):
@@ -595,17 +586,6 @@ def remove_service_from_client(client_id, service_id):
 
 @controller.route('/api/client_services', methods=['GET'])
 def get_client_services():
-    """
-    Отримати всі зв'язки клієнт-послуга
-    ---
-    tags:
-      - Client-Service Relationships
-    responses:
-      200:
-        description: Список всіх зв'язків
-      500:
-        description: Помилка на сервері
-    """
     client_services = ClientService.get_all_client_services()
     if client_services is None:
         return jsonify({"error": "Unable to fetch client services"}), 500
