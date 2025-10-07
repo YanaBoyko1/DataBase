@@ -1,13 +1,21 @@
 from flask import Blueprint, jsonify, request
 from app.my_project.auth.service.service import (
-    CompanyService, ClientService, TerminalService, ServiceTypeService,
-    PaymentMethodService, PaymentService, InvoiceService, ServiceService, MasterService
+    CompanyService,
+    ClientService,
+    TerminalService,
+    ServiceTypeService,
+    PaymentMethodService,
+    PaymentService,
+    InvoiceService,
+    ServiceService,
+    MasterService,
 )
 
-controller = Blueprint('controller', __name__)
+controller = Blueprint("controller", __name__)
+
 
 # --- Company routes ---
-@controller.route('/companies', methods=['GET'])
+@controller.route("/companies", methods=["GET"])
 def get_all_companies():
     """
     Отримати список всіх компаній
@@ -21,32 +29,34 @@ def get_all_companies():
     companies = CompanyService.get_all_companies()
     return jsonify([company.to_dict() for company in companies])
 
-@controller.route('/companies/<int:company_id>', methods=['GET'])
-def get_company(company_id):
-    """
-    Отримати компанію за ID
-    ---
-    tags:
-      - Companies
-    parameters:
-      - name: company_id
-        in: path
-        type: integer
-        required: true
-        description: ID компанії
-    responses:
-      200:
-        description: Інформація про компанію та її клієнтів
-      404:
-        description: Компанію не знайдено
-    """
-    company = CompanyService.get_company_by_id(company_id)
-    if company:
-        clients = [client.to_dict() for client in company.clients]
-        return jsonify({"company": company.to_dict(), "clients": clients}), 200
-    return jsonify({"error": "Company not found"}), 404
 
-@controller.route('/companies', methods=['POST'])
+# @controller.route('/companies/<int:company_id>', methods=['GET'])
+# def get_company(company_id):
+#     """
+#     Отримати компанію за ID
+#     ---
+#     tags:
+#       - Companies
+#     parameters:
+#       - name: company_id
+#         in: path
+#         type: integer
+#         required: true
+#         description: ID компанії
+#     responses:
+#       200:
+#         description: Інформація про компанію та її клієнтів
+#       404:
+#         description: Компанію не знайдено
+#     """
+#     company = CompanyService.get_company_by_id(company_id)
+#     if company:
+#         clients = [client.to_dict() for client in company.clients]
+#         return jsonify({"company": company.to_dict(), "clients": clients}), 200
+#     return jsonify({"error": "Company not found"}), 404
+
+
+@controller.route("/companies", methods=["POST"])
 def create_company():
     """
     Створити нову компанію
@@ -74,7 +84,8 @@ def create_company():
     new_company = CompanyService.create_company(company_data)
     return jsonify(new_company.to_dict()), 201
 
-@controller.route('/companies/<int:company_id>', methods=['PUT'])
+
+@controller.route("/companies/<int:company_id>", methods=["PUT"])
 def update_company(company_id):
     """
     Оновити існуючу компанію
@@ -107,9 +118,10 @@ def update_company(company_id):
     """
     update_data = request.json
     updated_company = CompanyService.update_company(company_id, update_data)
-    return jsonify(updated_company.to_dict()) if updated_company else ('', 404)
+    return jsonify(updated_company.to_dict()) if updated_company else ("", 404)
 
-@controller.route('/companies/<int:company_id>', methods=['DELETE'])
+
+@controller.route("/companies/<int:company_id>", methods=["DELETE"])
 def delete_company(company_id):
     """
     Видалити компанію
@@ -127,10 +139,11 @@ def delete_company(company_id):
         description: Компанію успішно видалено
     """
     CompanyService.delete_company(company_id)
-    return '', 204
+    return "", 204
+
 
 # --- Client routes ---
-@controller.route('/clients', methods=['GET'])
+@controller.route("/clients", methods=["GET"])
 def get_all_clients():
     """
     Отримати список всіх клієнтів
@@ -144,7 +157,8 @@ def get_all_clients():
     clients = ClientService.get_all_clients()
     return jsonify([client.to_dict() for client in clients])
 
-@controller.route('/clients/<int:client_id>', methods=['GET'])
+
+@controller.route("/clients/<int:client_id>", methods=["GET"])
 def get_client(client_id):
     """
     Отримати клієнта за ID
@@ -169,7 +183,8 @@ def get_client(client_id):
         return jsonify({"client": client.to_dict(), "services": services}), 200
     return jsonify({"error": "Client not found"}), 404
 
-@controller.route('/clients', methods=['POST'])
+
+@controller.route("/clients", methods=["POST"])
 def create_client():
     """
     Створити нового клієнта
@@ -195,7 +210,8 @@ def create_client():
     new_client = ClientService.create_client(client_data)
     return jsonify(new_client.to_dict()), 201
 
-@controller.route('/clients/<int:client_id>', methods=['PUT'])
+
+@controller.route("/clients/<int:client_id>", methods=["PUT"])
 def update_client(client_id):
     """
     Оновити існуючого клієнта
@@ -226,9 +242,10 @@ def update_client(client_id):
     """
     update_data = request.json
     updated_client = ClientService.update_client(client_id, update_data)
-    return jsonify(updated_client.to_dict()) if updated_client else ('', 404)
+    return jsonify(updated_client.to_dict()) if updated_client else ("", 404)
 
-@controller.route('/clients/<int:client_id>', methods=['DELETE'])
+
+@controller.route("/clients/<int:client_id>", methods=["DELETE"])
 def delete_client(client_id):
     """
     Видалити клієнта
@@ -246,10 +263,11 @@ def delete_client(client_id):
         description: Клієнта успішно видалено
     """
     ClientService.delete_client(client_id)
-    return '', 204
+    return "", 204
+
 
 # Terminal routes
-@controller.route('/terminals', methods=['GET'])
+@controller.route("/terminals", methods=["GET"])
 def get_all_terminals():
     """
     Отримати список всіх терміналів
@@ -263,7 +281,8 @@ def get_all_terminals():
     terminals = TerminalService.get_all_terminals()
     return jsonify([terminal.to_dict() for terminal in terminals])
 
-@controller.route('/terminals/<int:terminal_id>', methods=['GET'])
+
+@controller.route("/terminals/<int:terminal_id>", methods=["GET"])
 def get_terminal(terminal_id):
     """
     Отримати термінал за ID
@@ -282,9 +301,10 @@ def get_terminal(terminal_id):
         description: Термінал не знайдено
     """
     terminal = TerminalService.get_terminal_by_id(terminal_id)
-    return jsonify(terminal.to_dict()) if terminal else ('', 404)
+    return jsonify(terminal.to_dict()) if terminal else ("", 404)
 
-@controller.route('/terminals', methods=['POST'])
+
+@controller.route("/terminals", methods=["POST"])
 def create_terminal():
     """
     Створити новий термінал
@@ -310,7 +330,8 @@ def create_terminal():
     new_terminal = TerminalService.create_terminal(terminal_data)
     return jsonify(new_terminal.to_dict()), 201
 
-@controller.route('/terminals/<int:terminal_id>', methods=['PUT'])
+
+@controller.route("/terminals/<int:terminal_id>", methods=["PUT"])
 def update_terminal(terminal_id):
     """
     Оновити термінал
@@ -338,9 +359,10 @@ def update_terminal(terminal_id):
     """
     update_data = request.json
     updated_terminal = TerminalService.update_terminal(terminal_id, update_data)
-    return jsonify(updated_terminal.to_dict()) if updated_terminal else ('', 404)
+    return jsonify(updated_terminal.to_dict()) if updated_terminal else ("", 404)
 
-@controller.route('/terminals/<int:terminal_id>', methods=['DELETE'])
+
+@controller.route("/terminals/<int:terminal_id>", methods=["DELETE"])
 def delete_terminal(terminal_id):
     """
     Видалити термінал
@@ -357,11 +379,11 @@ def delete_terminal(terminal_id):
         description: Термінал успішно видалено
     """
     TerminalService.delete_terminal(terminal_id)
-    return '', 204
+    return "", 204
 
 
 # ServiceType routes
-@controller.route('/service_types', methods=['GET'])
+@controller.route("/service_types", methods=["GET"])
 def get_all_service_types():
     """
     Отримати всі типи послуг
@@ -375,7 +397,8 @@ def get_all_service_types():
     service_types = ServiceTypeService.get_all_service_types()
     return jsonify([service_type.to_dict() for service_type in service_types])
 
-@controller.route('/service_types/<int:service_type_id>', methods=['GET'])
+
+@controller.route("/service_types/<int:service_type_id>", methods=["GET"])
 def get_service_type(service_type_id):
     """
     Отримати тип послуги за ID
@@ -394,9 +417,10 @@ def get_service_type(service_type_id):
         description: Тип послуги не знайдено
     """
     service_type = ServiceTypeService.get_service_type_by_id(service_type_id)
-    return jsonify(service_type.to_dict()) if service_type else ('', 404)
+    return jsonify(service_type.to_dict()) if service_type else ("", 404)
 
-@controller.route('/service_types', methods=['POST'])
+
+@controller.route("/service_types", methods=["POST"])
 def create_service_type():
     """
     Створити новий тип послуги
@@ -420,7 +444,8 @@ def create_service_type():
     new_service_type = ServiceTypeService.create_service_type(service_type_data)
     return jsonify(new_service_type.to_dict()), 201
 
-@controller.route('/service_types/<int:service_type_id>', methods=['PUT'])
+
+@controller.route("/service_types/<int:service_type_id>", methods=["PUT"])
 def update_service_type(service_type_id):
     """
     Оновити тип послуги
@@ -447,10 +472,15 @@ def update_service_type(service_type_id):
         description: Тип послуги не знайдено
     """
     update_data = request.json
-    updated_service_type = ServiceTypeService.update_service_type(service_type_id, update_data)
-    return jsonify(updated_service_type.to_dict()) if updated_service_type else ('', 404)
+    updated_service_type = ServiceTypeService.update_service_type(
+        service_type_id, update_data
+    )
+    return (
+        jsonify(updated_service_type.to_dict()) if updated_service_type else ("", 404)
+    )
 
-@controller.route('/service_types/<int:service_type_id>', methods=['DELETE'])
+
+@controller.route("/service_types/<int:service_type_id>", methods=["DELETE"])
 def delete_service_type(service_type_id):
     """
     Видалити тип послуги
@@ -467,11 +497,11 @@ def delete_service_type(service_type_id):
         description: Тип послуги видалено
     """
     ServiceTypeService.delete_service_type(service_type_id)
-    return '', 204
+    return "", 204
 
 
 # PaymentMethod routes
-@controller.route('/payment_methods', methods=['GET'])
+@controller.route("/payment_methods", methods=["GET"])
 def get_all_payment_methods():
     """
     Отримати всі методи оплати
@@ -485,7 +515,8 @@ def get_all_payment_methods():
     payment_methods = PaymentMethodService.get_all_payment_methods()
     return jsonify([payment_method.to_dict() for payment_method in payment_methods])
 
-@controller.route('/payment_methods/<int:payment_method_id>', methods=['GET'])
+
+@controller.route("/payment_methods/<int:payment_method_id>", methods=["GET"])
 def get_payment_method(payment_method_id):
     """
     Отримати метод оплати за ID
@@ -504,10 +535,11 @@ def get_payment_method(payment_method_id):
         description: Метод оплати не знайдено
     """
     payment_method = PaymentMethodService.get_payment_method_by_id(payment_method_id)
-    return jsonify(payment_method.to_dict()) if payment_method else ('', 404)
+    return jsonify(payment_method.to_dict()) if payment_method else ("", 404)
+
 
 # --- Client-Service relationship routes ---
-@controller.route('/clients/<int:client_id>/services', methods=['GET'])
+@controller.route("/clients/<int:client_id>/services", methods=["GET"])
 def get_services_for_client(client_id):
     """
     Отримати послуги для конкретного клієнта
@@ -531,7 +563,8 @@ def get_services_for_client(client_id):
         return jsonify({"client": client.to_dict(), "services": services}), 200
     return jsonify({"error": "Client not found"}), 404
 
-@controller.route('/clients/<int:client_id>/services', methods=['POST'])
+
+@controller.route("/clients/<int:client_id>/services", methods=["POST"])
 def add_service_to_client(client_id):
     """
     Додати послугу клієнту
@@ -558,9 +591,12 @@ def add_service_to_client(client_id):
     service_data = request.json
     service_id = service_data.get("service_id")
     ClientService.add_service_to_client(client_id, service_id)
-    return '', 204
+    return "", 204
 
-@controller.route('/clients/<int:client_id>/services/<int:service_id>', methods=['DELETE'])
+
+@controller.route(
+    "/clients/<int:client_id>/services/<int:service_id>", methods=["DELETE"]
+)
 def remove_service_from_client(client_id, service_id):
     """
     Видалити послугу у клієнта
@@ -581,10 +617,10 @@ def remove_service_from_client(client_id, service_id):
         description: Послугу успішно видалено
     """
     ClientService.remove_service_from_client(client_id, service_id)
-    return '', 204
+    return "", 204
 
 
-@controller.route('/api/client_services', methods=['GET'])
+@controller.route("/api/client_services", methods=["GET"])
 def get_client_services():
     client_services = ClientService.get_all_client_services()
     if client_services is None:
