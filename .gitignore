@@ -9,5 +9,9 @@ __pycache__/
 .idea/
 .vscode/
 
-# Environment variables
 .env
+.idea/
+.git
+.gitignore
+app.log
+.github/
